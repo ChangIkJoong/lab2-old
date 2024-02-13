@@ -6,11 +6,11 @@ public abstract class Car implements Movable {
     protected double enginePower; // Engine power of the car
     protected double currentSpeed; // The current speed of the car
     private Color color; // Color of the car
-    public String modelName; // The car model name
+    private String modelName; // The car model name
 
-    public Point2D.Double position = new Point2D.Double(10,0);
+    protected Point2D.Double position;
 
-    public Point orientation = new Point(0, 1);
+    protected Point direction;
 
     public Car(String model, int nrDoors, Color color, double enginePower){
         this.modelName = model;
@@ -18,7 +18,11 @@ public abstract class Car implements Movable {
         this.setColor(color);
         this.enginePower = enginePower;
         this.stopEngine();
+
+        this.position=new Point2D.Double(10,0);
+        this.direction=new Point(0, 1);
     }
+
 
     public int getNrDoors() {
         return nrDoors;
@@ -86,8 +90,8 @@ public abstract class Car implements Movable {
     //TODO Uppgift 2 : Action Interfaces
 
     public void move() {
-        double xTraverse = (currentSpeed * orientation.getX());
-        double yTraverse = (currentSpeed * orientation.getY());
+        double xTraverse = (currentSpeed * direction.getX());
+        double yTraverse = (currentSpeed * direction.getY());
 
         //if (orientation.getY() != 0) {
         position.y = (yTraverse + position.y);
@@ -103,25 +107,25 @@ public abstract class Car implements Movable {
     }
 
     public void turnLeft() {
-        if (orientation.getY() != 0) {
-            orientation.x = (int) orientation.getY();
-            orientation.y =0;
+        if (direction.getY() != 0) {
+            direction.x = (int) direction.getY();
+            direction.y =0;
         }
-        else if (orientation.getX() != 0) {
-            orientation.y = (int) -orientation.getX();
-            orientation.x=0;
+        else if (direction.getX() != 0) {
+            direction.y = (int) -direction.getX();
+            direction.x=0;
         }
 
     }
 
     public void turnRight() {
-        if (orientation.getY() != 0) {
-            orientation.x = (int) -orientation.getY();
-            orientation.y=0;
+        if (direction.getY() != 0) {
+            direction.x = (int) -direction.getY();
+            direction.y=0;
         }
         else if (position.getX() != 0) {
-            orientation.y = (int) orientation.getX();
-            orientation.x=0;
+            direction.y = (int) direction.getX();
+            direction.x=0;
         }
     }
 

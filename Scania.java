@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class Scania extends Truck {
-    protected int platformAngle;
+    private int platformAngle;
     private final int increaseAmount =1;
     public Scania(){
         super("Scania truck", 2, Color.cyan, 200, true);

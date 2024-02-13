@@ -4,8 +4,8 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class VolvoVAH300 extends Truck {
-    protected final Deque<Car> cargo;
-    protected static final int loadCapacity = 8;
+    private final Deque<Car> cargo;
+    private static final int loadCapacity = 10;
 
     public VolvoVAH300(){
         super("VolvoVAH300",2, Color.GREEN, 200, true);
@@ -32,8 +32,8 @@ public class VolvoVAH300 extends Truck {
         @Override
         public void move() {
             if(rampOpen) {
-                double xTraverse = (currentSpeed * orientation.getX());
-                double yTraverse = (currentSpeed * orientation.getY());
+                double xTraverse = (currentSpeed * this.getPos().getX());
+                double yTraverse = (currentSpeed * this.getPos().getY());
                 position.y = (yTraverse + position.y);
                 position.x = (xTraverse + position.x);
             }
