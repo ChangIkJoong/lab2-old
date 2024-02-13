@@ -1,74 +1,66 @@
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class VolvoVAH300 extends Truck {
-    protected final Deque<Car> cargo = new ArrayDeque<>();
-
-    protected boolean platform = false;
+    protected final Deque<Car> cargo;
     protected static final int loadCapacity = 8;
 
     public VolvoVAH300(){
-        super("VolvoVAH300",2, Color.GREEN, 200);
+        super("VolvoVAH300",2, Color.GREEN, 200, true);
+        rampOpen=false;
+        this.cargo=new ArrayDeque<>();
     }
-
-    @Override
-    public void increasePlatformAngle() {
+    public void openRamp() {
         if(getCurrentSpeed() == 0) {
-            setPlatformAngle(70);
-            if (getPlatformAngle()==70) {
-                platform = true;
+            this.rampOpen=true;
             }
+        else{
+            throw new RuntimeException("Transport must be still.");
         }
-
     }
-     @Override
-     public void decreasePlatformAngle() {
+     public void closeRamp() {
             if(getCurrentSpeed() == 0) {
-                setPlatformAngle(0);
-                if (getPlatformAngle()==0) {
-                    platform = false;
-                }
+                this.rampOpen=true;
             }
-        }
+            else {
+                throw new RuntimeException("Transport must be still.");
+            }
+     }
 
         @Override
         public void move() {
-            if(platform) {
+            if(rampOpen) {
                 double xTraverse = (currentSpeed * orientation.getX());
                 double yTraverse = (currentSpeed * orientation.getY());
-                coordination.y = (yTraverse + coordination.y);
-                coordination.x = (xTraverse + coordination.x);
+                position.y = (yTraverse + position.y);
+                position.x = (xTraverse + position.x);
             }
         }
         @Override
         public void gas(double amount) {
-            if (platform) {
+            if (rampOpen) {
                 incrementSpeed(speedInterval(amount));
+            }
+            else {
+                throw new RuntimeException("Ramp not closed.");
             }
         }
 
-    protected void addCar(Car newCar) {
-        if(!platform && currentSpeed==0 && cargo.size() < loadCapacity ) {
-            newCar.coordination=this.coordination;
+    public void loadCar(Car newCar) {
+        if(!rampOpen && currentSpeed==0 && cargo.size() < loadCapacity ) {
+            newCar.position=this.position;
             cargo.push(newCar);
         }
     }
 
-    protected Car removeCar() {
-        Car x = null;
-        if (!platform && currentSpeed == 0 && !cargo.isEmpty()) {
-            x = cargo.pop();
+    public Car unloadCar() {
+        if (!rampOpen && currentSpeed == 0 && !cargo.isEmpty()) {
+            throw new RuntimeException("Transport stack is either empty, or ramp is closed.");
         }
-        return x;
-    }
-
-    //TODO För att spelet ska kunna Testas, fungera och plocka samt avlasta grejjer...
-    public int getCargoSize() {
-        return cargo.size();
-    }
-
-    public Deque<Car> getLoadList() {
-        return cargo;
+        Car unloadCar = cargo.pop();
+        unloadCar.position= new Point2D.Double(this.position.x, this.position.y);
+        return unloadCar;
     }
 }

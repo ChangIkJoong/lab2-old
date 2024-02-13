@@ -1,47 +1,26 @@
 import java.awt.*;
 
-public abstract class Truck extends Car {
-    protected int platformAngle;
-    private final int increaseAmount = 1;
+abstract class Truck extends Car {
+    protected final Boolean hasRamp;
+    protected Boolean rampOpen;
 
-    public Truck(String model, int nrDoors, Color color, double enginePower) {
+
+    public Truck(String model, int nrDoors, Color color, double enginePower, boolean hasRamp) {
         super(model, nrDoors, color, enginePower);
+        this.hasRamp=hasRamp;
+        this.rampOpen = false;
     }
 
-    public int getPlatformAngle() {
-        return platformAngle;
-    }
-
-
-    public void setPlatformAngle(int n) {
-        platformAngle=n;
-    }
-
-    public void increasePlatformAngle() {
-        if(getCurrentSpeed() == 0) {
-            platformAngle = Math.min(70, platformAngle + increaseAmount);
-            setPlatformAngle(70);
-        }
-    }
-
-    public void decreasePlatformAngle() {
-        if(getCurrentSpeed() == 0) {
-            platformAngle= Math.max(0, platformAngle - increaseAmount);
-            setPlatformAngle(0);
-        }
-    }
-    @Override
-    public void move() {
-        if(platformAngle==0) {
-            double xTraverse = (currentSpeed * orientation.getX());
-            double yTraverse = (currentSpeed * orientation.getY());
-            coordination.y = (yTraverse + coordination.y);
-            coordination.x = (xTraverse + coordination.x);
-        }
-    }
     @Override
     public void gas(double amount){
-        if(getPlatformAngle()==0) {
+        if (amount < 0){
+            throw new RuntimeException("no negative amounts!!!");
+        }
+        else if (rampOpen && hasRamp) {
+            throw new RuntimeException("no driving when the platform is raised!");
+        }
+
+        else {
             incrementSpeed(speedInterval(amount));
         }
     }
