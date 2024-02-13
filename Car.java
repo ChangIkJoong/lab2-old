@@ -6,7 +6,7 @@ public abstract class Car implements Movable {
     protected double enginePower; // Engine power of the car
     protected double currentSpeed; // The current speed of the car
     private Color color; // Color of the car
-    private String modelName; // The car model name
+    private final String modelName; // The car model name
 
     protected Point2D.Double position;
 
@@ -58,8 +58,6 @@ public abstract class Car implements Movable {
     }
 
 
-    //TODO uppgift 4 Sanity Checks
-
     protected void incrementSpeed(double amount){
         currentSpeed = speedValidation(getCurrentSpeed() + speedFactor() * amount);
     }
@@ -83,11 +81,6 @@ public abstract class Car implements Movable {
     }
 
 
-
-
-    // TODO fix this method according to lab pm
-
-    //TODO Uppgift 2 : Action Interfaces
 
     public void move() {
         double xTraverse = (currentSpeed * direction.getX());
@@ -128,11 +121,6 @@ public abstract class Car implements Movable {
             direction.x=0;
         }
     }
-
-    //TODO -- solution for cargame = shit , därför behöver vi dra detta
-    // via overloading för vår app :))))))))
-    //  skulle annars haft de bara tillgängliga i Scania -> VolvoVAH300
-    //  inget som behövt ärvas från car.
 
 }
 
