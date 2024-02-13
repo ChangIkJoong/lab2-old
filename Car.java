@@ -8,7 +8,7 @@ public abstract class Car implements Movable {
     private Color color; // Color of the car
     public String modelName; // The car model name
 
-    public Point2D.Double position = new Point2D.Double(100,100);
+    public Point2D.Double position = new Point2D.Double(10,0);
 
     public Point orientation = new Point(0, 1);
 

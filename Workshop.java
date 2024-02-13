@@ -1,13 +1,12 @@
 import java.util.ArrayList;
-public class Workshop <T extends Car> {
+public class Workshop <T> {
 
     protected ArrayList<T> carList = new ArrayList<>();
     private final int size;
+    private final String name;
 
-    private String name;
     public Workshop(String name, ArrayList<T> carlist, int size){
         this.name=name;
-        carList = new ArrayList<>();
         carList.addAll(carlist);
         this.size = size;
     }
